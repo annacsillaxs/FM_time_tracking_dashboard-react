@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import data from './data.json';
+import Card from './components/Card';
+import ProfileCard from './components/ProfileCard';
 import './App.css';
 
 function App() {
+  const [details, setDetails] = useState(data);
+  const [report, setReport] = useState('weekly');
+  const [active, setActive] = useState('weekly');
+
+
+  const changeReportHandler = (e) => {
+    setReport(e.target.innerText.toLowerCase());
+    setActive(e.target.innerText.toLowerCase())
+    
+  }
+  console.log(active)
+  console.log(report)
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="app">
+      <section className="container">
+        <ProfileCard details={details} report={report} active={active} onChangeHandler={changeReportHandler}/>
+        {details.map((detail => {
+          return (
+            <Card key={detail.title} {...detail} report={report}/>
+          )
+        }))}
+      </section>
+    </main>
   );
 }
 
